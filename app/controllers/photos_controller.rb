@@ -49,4 +49,27 @@ class PhotosController < ApplicationController
 
   end
 
+  def update
+    
+    #Parameters: {"input_image"=>"https://images.ctfassets.net/lzny33ho1g45/T5qqQQVznbZaNyxmHybDT/b76e0ff25a495e00647fa9fa6193a3c2/best-url-shorteners-00-hero.png", 
+    #"query_caption"=>"pup n suds", "modify_id"=>"953"}
+
+    the_id = params.fetch("modify_id")
+
+    matching_photos = Photo.where({ :id => the_id})
+
+    the_photo = matching_photos.at(0)
+
+    input_image = params.fetch("query_image")
+    input_caption = params.fetch("query_caption")
+
+    the_photo.image = input_image
+    the_photo.caption = input_caption
+
+    the_photo.save
+
+    #render({ :template => "photo_templates/update.html.erb"})
+
+    redirect_to("/photos/" + the_photo.id.to_s)
+  end
 end
